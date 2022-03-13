@@ -8,9 +8,9 @@ app.use(express.json());
 // 1. Estabish connection with database using atlas connection string
 const connect = () => {
   return mongoose.connect(
-    "mongodb://localhost:27017/web15"
+    "mongodb://localhost:27017/books"
     //"mongodb+srv://Surajit00:surajit@1998@cluster0.fdx10.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-   // "mongodb+srv://Abhishek:Abhi_123@cluster0.r43gu.mongodb.net/Assignment?retryWrites=true&w=majority"
+   
   );
 };    
 
@@ -44,22 +44,6 @@ const sectionSchema = new mongoose.Schema(
 // in schema the first parameter is Collection name  and second parameter is schema name
 const Section = mongoose.model("section", sectionSchema);
 
-// Methods for CRUD
-// 1.Get method for route /section object
-// 2.Get method for route /single/:id section object
-// 3.Post method for route /section
-// 4.Patch method for route /section/:id
-// 5.Delete method for route /section/:id
-
-// error code for methods
-// Get : 200
-// Post : 201
-// Delete : 200
-// Patch : 201
-// Error : 500
-// Not found : 404
-// Internal server error : 404c
-// Forbidden error : 403
 
 //Post method for section
 app.post("/section", async (req, res) => {
