@@ -32,13 +32,47 @@ const sectionSchema = new mongoose.Schema(
     type: { type: String, required: true },
     checked : {type : Boolean},
     Books: [{ type: mongoose.Schema.Types.ObjectId, ref: "book" }],
-    Author : {type : mongoose.Schema.Types.ObjectId, ref : "author"}
+    Author : {type : mongoose.Schema.Types.ObjectId, ref : "author"},
+    userId: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   },
   {
     versionKey: false,
     timestamps: true,
   }
 );
+const userschema = new mongoose.Schema(
+  {
+    
+    firstName: { type: String, required: true },
+    lastName : { type: String, required: true},
+    age:{ type:Number,required:true},
+    email:{type:String , required:true}
+  },
+  {
+    versionKey: false,
+    timestamps: true,
+  }
+);
+const User = mongoose.model("user", userschema);
+
+app.get("/users", async (req, res) => {
+  try {
+  
+    const user = await User.find().lean().exec();
+    return res.status(200).send({user:user});
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+});
+app.post("/users", async (req, res) => {
+  try {
+    const user = await User.create(req.body);
+    return res.status(201).send(user);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+});
+
 
 //3. Create model for section schema
 // in schema the first parameter is Collection name  and second parameter is schema name
@@ -147,6 +181,7 @@ const authorSchema = new mongoose.Schema(
     id: { type: Number, required: true, unique: true },
     name: { type: String, required: true },
     Books: [{ type: mongoose.Schema.Types.ObjectId, ref: "book" }],
+    userId: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   },
   {
     versionKey: false,
@@ -238,6 +273,7 @@ const bookSchema = new mongoose.Schema(
       ref: "author",
       required: true,
     },
+    userId: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   },
   {
     versionKey: false,
