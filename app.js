@@ -33,7 +33,7 @@ const sectionSchema = new mongoose.Schema(
     checked : {type : Boolean},
     Books: [{ type: mongoose.Schema.Types.ObjectId, ref: "book" }],
     Author : {type : mongoose.Schema.Types.ObjectId, ref : "author"},
-    userId: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+   
   },
   {
     versionKey: false,
@@ -181,7 +181,7 @@ const authorSchema = new mongoose.Schema(
     id: { type: Number, required: true, unique: true },
     name: { type: String, required: true },
     Books: [{ type: mongoose.Schema.Types.ObjectId, ref: "book" }],
-    userId: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+    
   },
   {
     versionKey: false,
@@ -273,7 +273,7 @@ const bookSchema = new mongoose.Schema(
       ref: "author",
       required: true,
     },
-    userId: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+  
   },
   {
     versionKey: false,
@@ -344,3 +344,17 @@ app.delete("/books/:id", async (req, res) => {
     return res.status(500).send(er.message);
   }
 });
+
+const checkoutSchema = new mongoose.Schema({
+  book_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "book",
+    required: true,
+  },
+  checkout: null,
+  checkin :null,
+
+});
+
+const checkout=mongoose.model("checkout", checkoutSchema);
+
